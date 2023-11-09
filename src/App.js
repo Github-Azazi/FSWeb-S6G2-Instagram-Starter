@@ -1,3 +1,8 @@
+import React, { useState } from 'react';
+import AramaCubugu from "./bilesenler/AramaCubugu/AramaCubugu";
+import Gonderiler from "./bilesenler/Gonderiler/Gonderiler";
+import sahteVeri from "./sahte-veri";
+import "./App.css";
 /* 
   Buradan başlayın ve iç içe geçmiş bileşenlere doğru ilerleyin.
   Projedeki tüm dosyalara kod eklenmesi gerekmez.
@@ -5,18 +10,18 @@
 */
 
 // State hook u import edin
-import React from "react";
+//import React from "react";
 
 // Gönderiler (çoğul!) ve AramaÇubuğu bileşenlerini import edin, çünkü bunlar App bileşeni içinde kullanılacak
 // sahteVeri'yi import edin
-import "./App.css";
+//import "./App.css";
 
-const App = () => {
+//const App = () => {
   // Gönderi nesneleri dizisini tutmak için "gonderiler" adlı bir state oluşturun, **sahteVeri'yi yükleyin**.
   // Artık sahteVeri'ye ihtiyacınız olmayacak.
   // Arama çubuğunun çalışması için , arama kriterini tutacak başka bir state'e ihtiyacımız olacak.
 
-  const gonderiyiBegen = (gonderiID) => {
+  //const gonderiyiBegen = (gonderiID) => {
     /*
       Bu fonksiyon, belirli bir id ile gönderinin beğeni sayısını bir artırma amacına hizmet eder.
 
@@ -28,16 +33,44 @@ const App = () => {
         - gönderinin idsi "gonderiID" ile eşleşirse, istenen değerlerle yeni bir gönderi nesnesi döndürün.
         - aksi takdirde, sadece gönderi nesnesini değiştirmeden döndürün.
      */
+ // };
+
+  //return (
+   // <div className="App">
+    //  App Çalışıyor
+      //{/* Yukarıdaki metni projeye başladığınızda silin*/}
+     // {/* AramaÇubuğu ve Gönderiler'i render etmesi için buraya ekleyin */}
+//     {/* Her bileşenin hangi proplara ihtiyaç duyduğunu kontrol edin, eğer ihtiyaç varsa ekleyin! */}
+  //  </div>
+ // );
+//};
+
+//export default App;
+
+
+const App = () => {
+  const [gonderiler, setGonderiler] = useState(sahteVeri);
+  const [aramaKriteri, setAramaKriteri] = useState("");
+
+  const gonderiyiBegen = (gonderiID) => {
+    setGonderiler(gonderiler.map((gonderi) => {
+      if (gonderi.id === gonderiID) {
+        return { ...gonderi, begeniler: gonderi.begeniler + 1 };
+      }
+      return gonderi;
+    }));
   };
 
   return (
     <div className="App">
-      App Çalışıyor
-      {/* Yukarıdaki metni projeye başladığınızda silin*/}
-      {/* AramaÇubuğu ve Gönderiler'i render etmesi için buraya ekleyin */}
-      {/* Her bileşenin hangi proplara ihtiyaç duyduğunu kontrol edin, eğer ihtiyaç varsa ekleyin! */}
+      <AramaCubugu aramaKriteri={aramaKriteri} setAramaKriteri={setAramaKriteri} />
+      <Gonderiler gonderiler={gonderiler.filter((gonderi) => 
+        gonderi.username?.includes(aramaKriteri.toLowerCase())
+        )} 
+        gonderiyiBegen={gonderiyiBegen} />
     </div>
   );
 };
 
 export default App;
+// not: 68. satır Gonderiler gonderiler={gonderiler} aramaKriteri={aramaKriteri} gonderiyiBegen={gonderiyiBegen}
